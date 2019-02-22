@@ -13,6 +13,7 @@ export const register = async (req, res) => {
     await firebase.auth().createUser(usersRef).then(response => {
       console.log(response);
       let token = createToken();
+      console.log(token);
       return res.status(200).json({ error: false, message: "Se registró con exito", token: token });
     }).catch(err => {
       console.log(err.errorInfo.message);
@@ -44,12 +45,12 @@ export const log_in = async (req, res) => {
   }
 }
 
-const createToken = async () => {
+const createToken = () => {
   const payload = {
     check: true
   };
-  var token = await jwt.sign(payload, process.env.SECRET_PASSWORD, {
+  let token = jwt.sign(payload, process.env.SECRET_PASSWORD, {
     expiresIn: 20 // expires in 24 hours
   });
-  return token
+  return token;
 }
